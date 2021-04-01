@@ -1,1 +1,21 @@
 Fabricio Rua Sanchez
+Working on a MAC
+
+
+1) My IP adress is 137.22.175.4. My ethernet IP adress is structured differently, the wifi ip has integers separated by periods whereas the ethernet IP has pairs of integers and characters separated by colons.
+
+2) ping [hostname]
+
+3) nslookup [ipadress]
+
+4) scp /Directory/filename username@host:/Directory/path
+
+5)lsof -i 4tcp:[port] -sTCP:LISTEN
+
+6)sudo lsof -iTCP -sTCP:LISTEN
+
+7) curl -O [url]
+
+8)curl -v [url]
+
+9) curl -I [url]
