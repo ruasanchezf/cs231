@@ -1,0 +1,33 @@
+Fabricio Rua-Sanchez, Eric Neidhart
+
+===== DAYTIME =====
+Initial Handshake to establish connection:
+1	10.0.2.15	129.6.15.28	TCP	74	47590 → 13 [SYN] Seq=0 Win=64240 Len=0 MSS=1460 SACK_PERM=1 TSval=3763888109 TSecr=0 WS=128
+2	129.6.15.28	10.0.2.15	TCP	60	13 → 47590 [SYN, ACK] Seq=0 Ack=1 Win=65535 Len=0 MSS=1460
+3	10.0.2.15	129.6.15.28	TCP	54	47590 → 13 [ACK] Seq=1 Ack=1 Win=64240 Len=0
+
+TCP Handshake to end connection:
+6	129.6.15.28	10.0.2.15	TCP	60	13 → 47590 [FIN, ACK] Seq=52 Ack=1 Win=65535 Len=0
+7	10.0.2.15	129.6.15.28	TCP	54	47590 → 13 [FIN, ACK] Seq=1 Ack=53 Win=64188 Len=0
+8	129.6.15.28	10.0.2.15	TCP	60	13 → 47590 [ACK] Seq=53 Ack=2 Win=65535 Len=0
+
+
+Port number used on our client is 47500. The client needs a port so that it can send and receive information from a known (by the server) location.
+4	129.6.15.28	10.0.2.15	DAYTIME	105	DAYTIME Response
+0a|35|39|33|30|39|20|32|31|2d|30|34|2d|30|35|20|31|38|3a|32|39|3a|31|33|20|35|30|20|30|20|30|20|31|37|31|2e|31|20|55|54|43|28|4e|49|53|54|29|20|2a|20|0a|
+59309 21-04-05 18:29:13 50 0 0 171.1 UTC(NIST) * 
+https://www.nist.gov/pml/time-and-frequency-division/time-distribution/internet-time-service-its
+The first number before the data and time is the modified julian date, the 50 means that it is daylight savings time, the first 0 means that there will not be a leap second added at midnight, the second 0 means that the server is healthy, 171.1 is the number of ms that the time is being modified by to account for network delay, UTC(NIST) just indicates the standard they are using and that it is coming from NIST, and the * means that the time we received is the time we received it. 
+SYN means synchronize
+ACK means acknowledge.
+FIN means end the connection
+It was the daytime server that initiated the closing of the connection, and we can tell
+===== HTTP =====:
+32 TCP connections (out of a total of 38 packets)
+Yes, we can tell where it is: 7	10.0.2.15	45.79.89.123	HTTP	395	GET /index.html HTTP/1.1 
+Yes, we can tell where it is: 11	0.154269552	10.0.2.15	45.79.89.123	HTTP	364	GET /jeff_square_head.jpg HTTP/1.1 
+
+===== QUESTIONS =====:
+
+Is there an easier way to count how many connections of a particular type there are (ie, counting TCP vs HTTP connections)?
+Is it possible to copy paste multiple packet summaries from wireshark at once?
