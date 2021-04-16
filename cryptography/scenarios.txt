@@ -1,0 +1,30 @@
+Martin Bernard, Miguel Alvarez, Fabricio Rua-Sanchez
+
+Scenario 1:
+Alice and Bob use Diffie-Hellman to agree on a shared secret key K. Then with the new secret key they can use their symmetric encryption algorithm to encrypt their message. Alice would send Bob S_k(M) and Bob would take that message to do the inverse of the algorithm to get the original message (S_k)^-1(S_k(M)). 
+
+The goal of this encryption is to hide the message from Eve. With this approach, Eve would not have access to the secret key K. Since middle-man is impossible there is no need to add complexity to the approach, since decryption would rely on the shared key.
+
+Scenario 2:
+Alice and Bob use RSA to agree on a shared secret key K. Then with the new secret key they can use their symmetric encryption algorithm to encrypt their message. First, Alice encrypts K using her public key, C_k = E(P_a, K). Then Alice encrypts her message C = S_k(M) and uses along with the hash function H, along with the encrypted message, M to create a digest D where H(M) = D. Alice sends the concatenation of encrypted M and D to Bob. Bob can then use D to compute H(M) to check for inconsistencies in the concatenated M. If D == H(M) then Bob can be assured that M was not corrupted.Bob then uses the secret key, K, to decrypt the encrypted message and get the original message i.e. (S_k)^-1(S_k(M)).
+
+The goal of this encryption approach is to avoid the modification of the original message M. We do this by using a data integrity check once Bob receives the message. Since the possibility of a middle-man is present then we use RSA to share the key instead of Diffie-Hellman.
+
+Scenario 3:
+Alice and Bob use RSA to agree on a shared secret key K. We can create a digital signature S that is the product of a public key encryption function, E, of Alice’s secret key, S_A and the digest, D. The digest would be the hash function, H, of the encrypted message S_K(M). So we have S = E(S_A, D) and D = H(S_K(M)). Alice sends the encrypted message  S_K(M) concatenated with the digital signature. Bob receives this message and uses the public key encryption algorithm, E, along with Alice’s public key, P_A, and the digital signature to compute the digest, D’. Using D’, Bob can compute the encrypted message sent by Alice. If the message that Bob computers matches the one that was concatenated with the signature then Bob can be assured that Alice sent the message and that there were no modifications made to it. Bob then uses the secret key, K, to decrypt the encrypted message and get the original message i.e. (S_k)^-1(S_k(M)).
+
+The goal of this encryption approach is similar to the previous one in scenario 2, with the added complexity that we want to assure that the message was sent by the person who sent it. We do this by concatenating a digital signature with the encrypted message. This signature can be used to check the validity of the message and to ensure the message was not modified.
+
+Scenario 4:
+For this scenario we can use the same approach that we used for scenario 3. The digital signature that is sent from Alice to Bob satisfies the additional constraints. This scenario is the same as three with two additional constraints: 
+1. We want to make sure that Bob can’t pass an altered version of the message as the real version.
+2.We want to make sure that Alice can’t say that she didn't send the message.
+For constraint number 1, the digital signature acts as a connection to the original message. The same way that the signature prevents a middle-man from altering the original message and passing along a new message,the signature also prevents Bob from doing the same. Bob can not create an altered message of the original without affecting the value of the hash. The hash acts as a way to validate that the message is the original sent from Alice. 
+
+For constraint number 2, the digital signature is created using Alice’s secret which can not be accessed by anyone else as stated in the assignment:
+
+“You may assume that everybody has a correct copy of everybody else's public key, and that they have all kept their private keys private.”
+
+If Bob has received a digital signature that leads to Alice’s public key, P_A, then he can argue that Alice must have been the one who sent the message since she is the only one who had access to her secret key, S_A.
+
+
