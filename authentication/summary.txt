@@ -1,0 +1,22 @@
+Fabricio Rua-Sanchez, Miguel Alvarez, Martin Bernard
+
+Part 1 (single words):
+Passwords Cracked: 1162
+Total Time: 1 minute 24 seconds
+Number of Hashes Computed: 267751
+Passwords Cracked Per Number of Hashes Computed:  ~0.0434
+Time Per Password Cracked: 13.83 passwords/sec
+
+Part 2(single words):
+Passwords Cracked: 1133
+Total Time: 39 minute 57seconds
+Number of Hashes Computed: 466192417
+Passwords Cracked Per Number of Hashes Computed:  0.00000243
+Time Per Password Cracked: ~0.473 passwords/sec
+
+Our password per second increased by a factor of 29.24, this is because in the first scenario we only had to hash the list of possible passwords once before comparing. Meaning that if there were N possible passwords we only had N total hashes. For part 2, the inclusion of the salt meant that the hash was unique to each salt therefore we decided to compute the hash of N possible passwords for each unique salt. Since each password had a unique salt we had to do this for as many hashed passwords P that were present. In other words, for part 2 we needed to hash N possible passwords concatenated with the salt for every hashed password P. This is what slowed down our process so much.
+
+We only got a chance to crack the single word passwords but the process for cracking the two word passwords would consist of computing the hash for each word concatenated with all other words. In other words we would have to compute hashes N^2 times. Since N is a large value then this would take about 71 billion iterations. We did not have time to properly test and implement this but we would generally use the same process for single words, but adding another loop on it to check the possibility of any combination of two words.
+
+
+
